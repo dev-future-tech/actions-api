@@ -1,0 +1,28 @@
+= MultiCloud Use Case
+
+== Overview
+
+Open a messaging queue (Pulsar) between locations to:
+
+* share data between sites
+* execute commands between sites
+* _peek_ at locations and stream live data from a central location
+
+== Actions Service
+
+An API that will receive a message to execute a command remotely from Central Control
+
+== Sales Service
+
+An API that captures sales and when prompted can stream the realtime transactions over the message queue.
+
+== Inventory Service
+
+An API that managers Inventory and inventory levels for a specific location
+
+== Central Control
+
+UI that can browse locations and peek into operations (sales, inventory levels and updates),
+send actions on the site and view request tickets each site has raised.
+
+
