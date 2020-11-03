@@ -83,4 +83,41 @@ public class ActionService {
         }
         return actionId;
     }
+
+    public ActionMessage getActionById(Long actionId) {
+        ActionMessage toReturn = null;
+        String sql = "select * from actions where action_id = ?";
+
+        Connection con = null;
+        PreparedStatement pstmt = null;
+
+        try {
+            con = dataSource.getConnection();
+            pstmt = con.prepareStatement(sql);
+            pstmt.setLong(1, actionId);
+
+            ResultSet rs = pstmt.executeQuery();
+
+            if(rs.next()) {
+                toReturn = new ActionMessage();
+                toReturn.setActionId(actionId);
+                toReturn.setActionName(rs.getString(1));
+            }
+
+            rs.close();
+        } catch(Exception e) {
+            log.error("Error retrieving action with id {}", actionId, e);
+        } finally {
+            try {
+                assert con != null;
+                con.close();
+
+                assert pstmt != null;
+                pstmt.close();
+            } catch (Exception e) {
+                log.error(e.getMessage(), e);
+            }
+        }
+        return toReturn;
+    }
 }

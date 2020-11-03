@@ -15,6 +15,10 @@ public class ActionResource {
     @Consumes("application/json")
     @Produces(value = {"application/json"})
     public Response createAction(@QueryParam("action_name") String name) {
+        if (name == null) {
+            return Response.status(Response.Status.BAD_REQUEST).build();
+        }
+
         Long actionId = this.service.createAction(name);
         return Response.created(URI.create(String.format("/api/action/%d", actionId))).build();
     }
@@ -23,6 +27,11 @@ public class ActionResource {
     @Produces("application/json")
     @Path("/{actionId}")
     public Response getActionById(@PathParam("actionId") Long actionId) {
-        return Response.status(Response.Status.NOT_IMPLEMENTED).build();
+        ActionMessage message = this.service.getActionById(actionId);
+
+        if(message == null) {
+            return Response.status(Response.Status.BAD_REQUEST).build();
+        }
+        return Response.ok(message).build();
     }
 }
